@@ -23,7 +23,7 @@ class ForwardSM(sm.SM):
         print new_state
         return (new_state, white.controller.action(0, 0.01)) # angle:0 distance:1
 
-# Rotate
+# Rotate left for 
 class RotateSM(sm.SM):
     length = conf['Robot_length']
     width = conf['Robot_width']
