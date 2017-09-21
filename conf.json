@@ -1,5 +1,8 @@
 {
     "Model_path":"/opt/whiteDragon/models/Inception",
-    "Record_path":"/opt/whiteDragon/test"
-
+    "Label_path":"/opt/whiteDragon/models/Inception/imagenet_synset_to_human_label_map.txt",
+    "Record_path":"/opt/whiteDragon/test",
+    "Robot_length":27,
+    "Robot_width":16,
+    "camera_warmup_time":2
 }
