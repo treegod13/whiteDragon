@@ -1,6 +1,9 @@
 {
     "Model_path":"/opt/whiteDragon/models/Inception",
     "Label_path":"/opt/whiteDragon/models/Inception/imagenet_synset_to_human_label_map.txt",
+    "Caffe_prototxt":"/opt/whiteDragon/models/Inception-caffe/bvlc_googlenet.prototxt",
+    "Caffe_model":"/opt/whiteDragon/models/Inception-caffe/bvlc_googlenet.caffemodel",
+    "Caffe_label":"/opt/whiteDragon/models/Inception-caffe/synset_words.txt",
     "Record_path":"/opt/whiteDragon/test",
     "Robot_length":27,
     "Robot_width":16,
