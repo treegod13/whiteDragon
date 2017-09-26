@@ -2,9 +2,10 @@
 # chenmz 2017.9.1
 
 from modules import stateMachine as sm
-from modules import ioContrller as io
+from modules import ioControl as io
 import math
 import json
+import time
 
 # Import the configure infomation
 conf = json.load(open('conf.json'))
@@ -29,8 +30,8 @@ class RotateSM(sm.SM):
     width = conf['Robot_width']
     def __init__(self, s, direction):
         self.startState = s
-        self.direct = 
-    def getNextValues(self, state, inp):
+ #       self.direct = 
+#    def getNextValues(self, state, inp):
 #        (last_x, last_y, last_theta) = state
 #        (inp )
 #        new_x = 
@@ -52,21 +53,24 @@ class DestFinder(sm.SM):
 
 
 # Wall finder
-# SenserInput:(distance(unit: mm), barrierLeft(value:0, 1), barrierLeft(value:0, 1))
+# SenserInput:(distance(unit: cm), barrierLeft(value:0, 1), barrierLeft(value:0, 1))
 class WallFinder(sm.SM):
     startState = 0
     def __init__(self, dDesired):
-        self.dD = dDesired
+        self.desireDistance = dDesired
     def getNextValues(self, state, inp):
-        print state, inp
-        dN = inp[0]/100
-        dM = dN - self.dD
-        if dM < 0.01:
-            return (state, white.controller.action(0, 0))
-        elif dM < 1:
-            return (state + dM/100, white.controller.action(0, dM/100))
-        else:
-            return (state + dM/10, white.controller.action(0, dM/10))
+        #print state, inp
+        current_distance = inp[0]
+        k = current_distance - self.desireDistance
+        print k
+#        time.sleep(0.1)
+        return (state+1, white.controller.Action([1,1], k))
+        #if dM < 0.01:
+        #    return (state, white.controller.action(0, 0))
+        #elif dM < 1:
+        #    return (state + dM/100, white.controller.action(0, dM/100))
+        #else:
+        #    return (state + dM/10, white.controller.action(0, dM/10))
 
 # WhiteBrain
 class Brain(object):
@@ -77,7 +81,7 @@ class Brain(object):
     def setup(self):
         self.senser.setup()
         self.controller.setup()
-        self.behavior.start()
+        self.behavior.start()  # Start the state machine
     def step(self):
         self.behavior.step(self.senser.sensorInput())
     def run(self):
@@ -86,11 +90,11 @@ class Brain(object):
             i = i + 1
             self.step()
     def stop(self):
-        self.controller.stop()
+        self.controller.Stop()
 
 # Create instance of WhiteDragon
 white = Brain()
-white.behavior = WallFinder(0.1)
+white.behavior = WallFinder(50)
 white.setup()
 #white.step()
 #white.run()
